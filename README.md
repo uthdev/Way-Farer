@@ -1,2 +1,2 @@
 # Way-Farer
-WayFarer is a public bus transportation booking server. You are required to develop the back-end API.
+WayFarer is a public bus transportation booking server. It is a back-end RESTFUL API.
