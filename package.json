@@ -1,0 +1,33 @@
+{
+  "name": "way-farer",
+  "version": "1.0.0",
+  "description": "WayFarer is a public bus transportation booking server.",
+  "main": "index.js",
+  "scripts": {
+    "start": "Node ./server/index.js",
+    "dev": "nodemon ./server/index.js",
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/uthdev/Way-Farer.git"
+  },
+  "keywords": [
+    "users",
+    "admin",
+    "trips",
+    "bookings"
+  ],
+  "author": "uthdev",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/uthdev/Way-Farer/issues"
+  },
+  "homepage": "https://github.com/uthdev/Way-Farer#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.1"
+  }
+}
