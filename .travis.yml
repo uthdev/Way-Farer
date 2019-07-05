@@ -1,0 +1,26 @@
+language: node_js
+node_js:
+- "lts/*"
+
+env:
+global:
+  - CC_TEST_REPORTER_ID=d8e1dcb2b9614ec4066796fd00cca3185da895944a6d611ca3a8c0a1d2838f3e
+
+dist: trusty
+
+cache:
+  directories:
+    - "node_modules"
+before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
+
+script:
+  - "npm run nyc"
+
+after_script:
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+
+notifications:
+  email: false
