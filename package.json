@@ -8,10 +8,11 @@
     "build": "./node_modules/.bin/babel ./server --out-dir build",
     "dev": "nodemon --exec babel-node ./server/index.js",
     "nyc": "nyc --reporter=lcov npm run test && nyc report --reporter=text-lcov | coveralls",
-    "coverage": "npm test",
-    "spec": "nyc mocha --timeout 10000 --exit --require @babel/register --require babel-polyfill ./server/test/**/*.js || true ",
-    "test": "nyc --reporter=text --reporter=html mocha --recursive ./server/test --exit --require @babel/register",
-    "lint": "eslint ./server/**/*.js"
+    "coverage": "nyc npm test",
+    "spec": "npm run migrations && nyc mocha --timeout 10000 --exit --require @babel/register --require babel-polyfill ./server/test/**/*.js || true ",
+    "test": "npm run migrations && nyc --reporter=text --reporter=html mocha --timeout 10000 --recursive ./server/test/**/*.js --exit --require @babel/register --require babel-polyfill",
+    "lint": "eslint ./server/**/*.js",
+    "migrations": "babel-node server/database/dropTables && babel-node server/database/createTables"
   },
   "repository": {
     "type": "git",
@@ -38,7 +39,12 @@
     "@babel/register": "^7.4.4",
     "@babel/runtime": "^7.5.0",
     "babel-polyfill": "^6.26.0",
-    "express": "^4.17.1"
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^8.0.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "pg": "^7.11.0",
+    "validatorjs": "^3.15.1"
   },
   "devDependencies": {
     "chai": "^4.2.0",
