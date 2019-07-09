@@ -3,7 +3,7 @@ const authTestData = {
     email: 'johnjones@email.com',
     password: 'asdf1234',
     first_name: 'john',
-    last_name: 'Jones'
+    last_name: 'Jones',
   },
   invalidUserData: {
     email: '',
@@ -11,6 +11,22 @@ const authTestData = {
     first_name: 'john',
     last_name: 'Jones',
   },
-}
+  existingUserSignIn: {
+    email: 'johnjones@email.com',
+    password: 'asdf1234',
+  },
+  nonExistentUser: {
+    email: 'alphabets@gmail.com',
+    password: 'abcdefgh',
+  },
+  missingLoginField: {
+    email: '',
+    password: 'Bradit##',
+  },
+  wrongPassword: {
+    email: 'johnjones@email.com',
+    password: 'wrongpass',
+  },
+};
 
 export { authTestData };

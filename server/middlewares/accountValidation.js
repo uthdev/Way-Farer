@@ -17,4 +17,19 @@ export default class AccountValidator {
       return error;
     }
   }
+
+  static async loginValidator (req, res, next) {
+    const user = req.body;
+
+    const userProperties = {
+      email: 'required|email|max:50',
+      password: 'required|alpha_dash|min:6|max:20'
+    }
+    
+    try {
+      await validate(res, next, user, userProperties);
+    } catch(error) {
+      return error;
+    }
+  }
 }

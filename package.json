@@ -11,7 +11,7 @@
     "coverage": "nyc npm test",
     "spec": "npm run migrations && nyc mocha --timeout 10000 --exit --require @babel/register --require babel-polyfill ./server/test/**/*.js || true ",
     "test": "npm run migrations && nyc --reporter=text --reporter=html mocha --timeout 10000 --recursive ./server/test/**/*.js --exit --require @babel/register --require babel-polyfill",
-    "lint": "eslint ./server/**/*.js",
+    "lint": "eslint --fix ./server/**/*.js",
     "migrations": "babel-node server/database/dropTables && babel-node server/database/createTables"
   },
   "repository": {
