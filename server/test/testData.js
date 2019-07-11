@@ -29,4 +29,14 @@ const authTestData = {
   },
 };
 
-export { authTestData };
+const tripTestData = {
+  validTrip: {
+    bus_id: 2,
+    origin: 'Mile 2',
+    destination: 'Berger',
+    trip_date: '2019-12-12',
+    fare: 350.00
+  }
+}
+
+export { authTestData, tripTestData };
