@@ -11,4 +11,17 @@ export default class TripController {
       return error;
     }
   }
+
+  static async getAllTrips (req, res) {
+    try{
+      const trips = await Trip.getAll();
+      if ( trips <= 0) {
+        return errorResponse(res, 404, 'No existing trip');
+      } else {
+        return successResponse(res, 200, trips)
+      }
+    } catch (error) {
+      return error;
+    }
+  }
 }

@@ -27,6 +27,17 @@ describe('AUTH TEST', () => {
 });
 
 describe('TRIP TEST', () => {
+  describe('GET ALL TRIP', () => {
+    it('should have a status 404 code and return an error message when no trip is available', async () => {
+      const res = await chai.request(app)
+      .get('/api/v1/trips')
+      .set({Authorization: `Bearer ${adminToken}`})
+      expect(res).to.have.status(404);
+      expect(res.body.status).to.equal('error');
+      expect(res.body).to.have.property('error');
+      expect(res.body.error).to.be.equal('No existing trip')
+    })
+  })
   describe('POST A TRIP', () => {
     it('should return a status 201 code and post a trip', async () => {
       const res = await chai.request(app)
@@ -45,28 +56,15 @@ describe('TRIP TEST', () => {
       expect(res.body.status).to.equal('error')
       expect(res.body).to.have.property('error');
     });
-    // it('should return a status 403 error code when user has an unrepaid loan', async () => {
-    //   const res = await chai.request(app)
-    //   .post('/api/v1/loans')
-    //   .set('x-access-token', unrepaidLoanUserToken)
-    //   .send(validLoanApplication);
-    //   expect(res).to.have.status(403);
-    //   expect(res.body).to.have.property('message')
-    // it('should return a status 400 error code when loan application validation fails', async () => {
-    //   const res = await chai.request(app)
-    //   .post('/api/v1/loans')
-    //   .set({Authorization: `Bearer ${adminToken}`})
-    //   .send(invalidLoanApplication);
-    //   expect(res).to.have.status(400);
-    //   expect(res.body).to.have.property('error');
-    // });
-    // it('should return a status 403 error code when user has an unrepaid loan', async () => {
-    //   const res = await chai.request(app)
-    //   .post('/api/v1/loans')
-    //   .set('x-access-token', unrepaidLoanUserToken)
-    //   .send(validLoanApplication);
-    //   expect(res).to.have.status(403);
-    //   expect(res.body).to.have.property('message');
-    // });
   });
+  describe('GET ALL TRIPS', () => {
+    it('should have a status 200 code and return all the available trips', async () => {
+      const res = await chai.request(app)
+      .get('/api/v1/trips')
+      .set({Authorization: `Bearer ${adminToken}`})
+      expect(res).to.have.status(200);
+      expect(res.body.status).to.equal('success');
+      expect(res.body).to.have.property('data');
+    })
+  })
 });
