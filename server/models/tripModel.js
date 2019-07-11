@@ -21,6 +21,16 @@ class Trip {
       return error;
     }
   }
+
+  static async getAll () {
+    const queryString = 'SELECT * FROM trips';
+    try {
+      const { rows } = await pool.query(queryString);
+      return rows;
+    } catch (error) {
+      return error.message;
+    }
+  }
 }
 
 export default Trip;
