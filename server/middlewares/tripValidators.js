@@ -19,4 +19,23 @@ export default class TripValidator {
     }
   }
 
+  static async getTripQueryValidator(req, res, next) {
+    const query = req.query;
+    const { origin, destination } = query;
+    const originProperties = {
+      origin: 'string|min:3|max:50'
+    }
+    const destinationProperties = {
+      destination: 'string|min:3|max:50'
+    }
+    try {
+      if(origin) {
+        await validate(res, next, query, originProperties);
+      } else if (destination) {
+        await validate(res, next, query, destinationProperties);
+      }
+    } catch (error) {
+      return error;
+    }
+  }
 }

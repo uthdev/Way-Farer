@@ -59,3 +59,5 @@ typings/
 
 # next.js build output
 .next
+# issues to be worked on
+issues.js
