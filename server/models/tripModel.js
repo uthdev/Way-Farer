@@ -31,6 +31,16 @@ class Trip {
       return error.message;
     }
   }
+
+  static async filterTrips (filterCriteria, filterValue) {
+    const queryString = `SELECT * FROM trips WHERE ${filterCriteria} ILIKE '${filterValue}'`;
+    try {
+      const { rows } = await pool.query(queryString);
+      return rows;
+    } catch (error) {
+      return error.message;
+    }
+  }
 }
 
 export default Trip;

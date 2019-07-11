@@ -1,9 +1,8 @@
 import Validator from 'validatorjs';
-import customErrorMsgs from './customErrorMsgs';
 import { errorResponse } from './responses';
 
 export const validate = async (res, next, data,  properties) => {
-  const validator = await new Validator(data, properties, customErrorMsgs);
+  const validator = await new Validator(data, properties);
   validator.passes(() => next());
   validator.fails(() => {
     const errors = validator.errors.all();

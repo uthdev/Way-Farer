@@ -38,6 +38,8 @@ describe('TRIP TEST', () => {
       expect(res.body.error).to.be.equal('No existing trip')
     })
   })
+  
+    
   describe('POST A TRIP', () => {
     it('should return a status 201 code and post a trip', async () => {
       const res = await chai.request(app)
@@ -67,4 +69,24 @@ describe('TRIP TEST', () => {
       expect(res.body).to.have.property('data');
     })
   })
+  describe('FILTER TRIPS', () => {
+    it('should have 404 status and return an error message when no trips of the specified origin exists', async () => {
+      const res = await chai.request(app)
+      .get('/api/v1/trips?origin=Oshodi')
+      .set({Authorization: `Bearer ${adminToken}`})
+      expect(res).to.have.status(404);
+      expect(res.body.status).to.equal('error');
+      expect(res.body).to.have.property('error');
+      expect(res.body.error).to.be.equal('No trip of Oshodi origin');
+    });
+    it('should have 404 status and return an error message when no trips of the specified destination exists', async () => {
+      const res = await chai.request(app)
+      .get('/api/v1/trips?destination=Cele')
+      .set({Authorization: `Bearer ${adminToken}`})
+      expect(res).to.have.status(404);
+      expect(res.body.status).to.equal('error');
+      expect(res.body).to.have.property('error');
+      expect(res.body.error).to.be.equal('No trip of Cele destination');
+    })
+  });
 });
