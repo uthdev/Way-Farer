@@ -30,4 +30,12 @@ export default class Access {
     }
     next();
   }
+
+  static async nonAdmin (req, res, next) {
+    const { is_admin } = req.user;
+    if (is_admin) {
+      return errorResponse(res, 403, 'Unauthorized! Not accessible to admin');
+    } 
+    next(); 
+  } 
 }

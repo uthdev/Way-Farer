@@ -1,4 +1,3 @@
-import moment from 'moment';
 import { validate } from '../helpers/validator';
 
 export default class TripValidator {
@@ -37,5 +36,30 @@ export default class TripValidator {
     } catch (error) {
       return error;
     }
+  }
+
+  static async tripIdValidator (req, res, next) {
+    const tripId = req.params;
+
+    const tripIdProperties = {
+      tripId: 'numeric|min:1|max:10000'
+    }
+    try {
+      await validate(res, next, tripId, tripIdProperties);
+    } catch (error) {
+      return error;
+    } 
+  }
+
+  static async cancelTripValidator (req, res, next) {
+    const cancelTrip = req.body;
+    const cancelTripProperties = {
+      status: ['required', 'regex:/cancelled/i']
+    }
+    try {
+      await validate(res, next, cancelTrip, cancelTripProperties);
+    } catch (error) {
+      return error;
+    } 
   }
 }

@@ -41,6 +41,28 @@ class Trip {
       return error.message;
     }
   }
+
+  static async findTripById (tripId) {
+    const queryString = 'SELECT  * FROM trips WHERE id = $1';
+    const param = [tripId];
+    try {
+      const { rows } = await pool.query(queryString, param);
+      return rows;
+    } catch (error) {
+      return error.message;
+    }
+  }
+
+  static async updateTrip (tripId, rowToUpdate, updateValue) {
+    const queryString = `UPDATE trips SET ${rowToUpdate.replace(/"/g, '')} = $1 WHERE id = $2 RETURNING *`;
+    const params = [updateValue, tripId];
+    try {
+      const { rows } = await pool.query(queryString, params);
+      return rows
+    } catch (error) {
+      return error.message;
+    }
+  }
 }
 
 export default Trip;

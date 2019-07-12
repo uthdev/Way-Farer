@@ -36,6 +36,12 @@ const tripTestData = {
     destination: 'Berger',
     trip_date: '2019-12-12',
     fare: 350.00
+  },
+  validCancelTrip: {
+    status: 'cancelled'
+  },
+  invalidCancelTrip: {
+    status: 'cancel'
   }
 }
 
