@@ -51,4 +51,24 @@ export default class TripController {
       return error;
     }
   }
+
+  static async cancelTrip (req, res) {
+    const { status } = req.body;
+    const { tripId }= req.params;
+    try {
+      const rows = await Trip.findTripById(tripId);
+      if (rows.length <= 0) {
+        return errorResponse(res, 404, `Trip with Id: ${tripId} does not exist`)
+      }
+      const updatedRows = await Trip.updateTrip(tripId, 'status', status);
+      const { id, bus_id, origin, destination,trip_date, fare } = updatedRows[0];
+      const response = {
+        message: 'Trip cancelled successfully',
+        id, bus_id, origin, destination, trip_date, fare, status
+      }
+      return successResponse(res, 200, response);
+    } catch (error) {
+      return error;
+    }
+  }
 }
