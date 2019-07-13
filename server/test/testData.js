@@ -31,7 +31,7 @@ const authTestData = {
 
 const tripTestData = {
   validTrip: {
-    bus_id: 2,
+    bus_id: 1,
     origin: 'Mile 2',
     destination: 'Berger',
     trip_date: '2019-12-12',
@@ -45,4 +45,15 @@ const tripTestData = {
   }
 }
 
-export { authTestData, tripTestData };
+const bookingTestData = {
+  validBooking: {
+    trip_id: 1,
+    seat_number: 2
+  },
+  nonExistingTripBooking: {
+    trip_id: 2,
+    seat_number: 6
+  }
+}
+
+export { authTestData, tripTestData, bookingTestData };
