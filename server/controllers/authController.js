@@ -21,10 +21,12 @@ export default class AuthController {
     } catch(error) {
       return error.message;
     }
-    const token = await Jwt.generateToken(newUser);
     const { 
       id: user_id, is_admin, email, first_name, last_name
-    } = newUser;
+    } = newUser
+    const token = await Jwt.generateToken({
+      user_id, email, first_name, last_name, is_admin
+    });
     const response = {
       user_id, is_admin, token, email, first_name, last_name
     }

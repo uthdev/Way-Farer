@@ -8,12 +8,13 @@ class Trip {
     this.destination = trip.destination;
     this.trip_date = trip.trip_date;
     this.fare = trip.fare;
-    this.status = 'active'
+    this.status = 'active';
+    this.bookings = 0;
   }
 
   async createTrip () {
-    const queryString = 'INSERT INTO trips (bus_id, origin, destination, trip_date, fare, status) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *';
-    const params = [this.bus_id, this.origin, this.destination, this.trip_date, this.fare, this.status];
+    const queryString = 'INSERT INTO trips (bus_id, origin, destination, trip_date, fare, status, bookings) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *';
+    const params = [this.bus_id, this.origin, this.destination, this.trip_date, this.fare, this.status, this.bookings];
     try {
       const { rows } = await pool.query(queryString, params);
       return rows;

@@ -1,10 +1,11 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../index';
-import { tripTestData, authTestData } from './testData';
+import { tripTestData, authTestData, bookingTestData } from './testData';
 
 const { validTrip, validCancelTrip, invalidCancelTrip } = tripTestData;
-const { existingUserSignIn } = authTestData
+const { existingUserSignIn } = authTestData;
+const { validBooking, nonExistingTripBooking } = bookingTestData
 
 chai.use(chaiHttp);
 
@@ -63,7 +64,7 @@ describe('TRIP TEST', () => {
       expect(res).to.have.status(201);
       expect(res.body).to.have.property('data');
     });
-    it('should return a status 403 code and return an error response', async () => {
+    it('should return a status 403 code and return an error response when no token is provided', async () => {
       const res = await chai.request(app)
       .post('/api/v1/trips')
       .set({Authorization: `Bearer ${''}`})
@@ -73,6 +74,29 @@ describe('TRIP TEST', () => {
       expect(res.body).to.have.property('error');
     });
   });
+
+  describe('CREATE BOOKING', () => {
+    it('should return a status 201 and create a new booking', async () => {
+      const res = await chai.request(app)
+      .post('/api/v1/bookings')
+      .set({Authorization: `Bearer ${userToken}`})
+      .send(validBooking);
+      expect(res).to.have.status(201);
+      expect(res.body.status).to.equal('success');
+      expect(res.body).to.have.property('data');
+    });
+    it('should return a status 403 and return an error', async () => {
+      const res = await chai.request(app)
+      .post('/api/v1/bookings')
+      .set({Authorization: `Bearer ${userToken}`})
+      .send(validBooking);
+      expect(res).to.have.status(403);
+      expect(res.body.status).to.equal('error');
+      expect(res.body).to.have.property('error');
+      expect(res.body.error).to.equal('You cannot make more than one booking');
+    })
+  });
+
   describe('GET ALL TRIPS', () => {
     it('should have a status 200 code and return all the available trips', async () => {
       const res = await chai.request(app)
@@ -128,6 +152,8 @@ describe('TRIP TEST', () => {
       expect(res.body.error).to.be.equal('No trip of Cele destination');
     })
   });
+  
+  
 
   describe('CANCEL A TRIP', () => {
     it('should return a 200 status and change the status of the trip to cancel', async () => {
@@ -150,3 +176,28 @@ describe('TRIP TEST', () => {
     })
   })
 });
+
+describe('BOOKING TESTS', () => {
+  describe('CREATE BOOKING', () => {
+    it('should return a status 403 and return an error', async () => {
+      const res = await chai.request(app)
+      .post('/api/v1/bookings')
+      .set({Authorization: `Bearer ${userToken}`})
+      .send(validBooking);
+      expect(res).to.have.status(403);
+      expect(res.body.status).to.equal('error');
+      expect(res.body).to.have.property('error');
+      expect(res.body.error).to.equal('The trip you are making a booking to has been cancelled')
+    })
+    it('should return a status 403 and return an error', async () => {
+      const res = await chai.request(app)
+      .post('/api/v1/bookings')
+      .set({Authorization: `Bearer ${userToken}`})
+      .send(nonExistingTripBooking);
+      expect(res).to.have.status(404);
+      expect(res.body.status).to.equal('error');
+      expect(res.body).to.have.property('error');
+      expect(res.body.error).to.equal('The trip you are making a booking to does not exist');
+    })
+  })
+})

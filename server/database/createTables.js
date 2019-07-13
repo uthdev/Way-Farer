@@ -19,7 +19,24 @@ console.log('Creating table...');
       destination text NOT NULL,
       trip_date TIMESTAMPTZ NOT NULL,
       fare  DECIMAL(10,2) NOT NULL,
-      status text NOT NULL)`);
+      status text NOT NULL,
+      bookings INT DEFAULT 0)`);
+
+    await pool.query(`CREATE TABLE IF NOT EXISTS bookings(
+      id SERIAL NOT NULL,
+      trip_id INT NOT NULL,
+      user_id INT NOT NULL,
+      created_on TIMESTAMPTZ DEFAULT NOW(),
+      seat_number INT,
+      PRIMARY KEY (trip_id, user_id))`);
+
+    await pool.query(`CREATE TABLE IF NOT EXISTS buses(
+      id SERIAL PRIMARY KEY,
+      number_plate text NOT NULL,
+      manufacturer text NOT NULL,
+      model text NOT NULL,
+      year text NOT NULL,
+      capacity INT NOT NULL)`)
   } catch(error) {
     console.log(error);
   }
