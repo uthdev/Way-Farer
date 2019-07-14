@@ -6,7 +6,7 @@ export default class AccountValidator {
 
     const userProperties = {
       email: 'required|email|max:50',
-      password: 'required|alpha_dash|min:6|max:20',
+      password: 'required|string|min:6|max:20',
       first_name: 'required|alpha|min:2|max:50',
       last_name: 'required|alpha|min:2|max:50'     
     };
@@ -23,7 +23,7 @@ export default class AccountValidator {
 
     const userProperties = {
       email: 'required|email|max:50',
-      password: 'required|alpha_dash|min:6|max:20'
+      password: 'required|string|min:6|max:20'
     }
     
     try {

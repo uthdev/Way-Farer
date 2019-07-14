@@ -4,8 +4,10 @@
   "description": "WayFarer is a public bus transportation booking server.",
   "main": "index.js",
   "scripts": {
-    "start": "node ./build/index.js",
+    "prestart": "npm run clean",
+    "start": "node build/index.js",
     "build": "./node_modules/.bin/babel ./server --out-dir build",
+    "clean": "rm -rf build && npm run build",
     "dev": "nodemon --exec babel-node ./server/index.js",
     "nyc": "nyc --reporter=lcov npm run test && nyc report --reporter=text-lcov | coveralls",
     "coverage": "nyc npm test",
