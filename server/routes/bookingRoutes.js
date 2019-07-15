@@ -4,12 +4,13 @@ import Access from '../middlewares/access';
 import BookingValidator from '../middlewares/bookingValidators';
 
 const { verifyToken, nonAdmin } = Access;
-const { createBookingValidator } = BookingValidator;
-const { createBooking, getBookings } = BookingController;
+const { createBookingValidator, bookingIdValidator } = BookingValidator;
+const { createBooking, getBookings, deleteBooking } = BookingController;
 
 const bookingRoute = new Router();
 
 bookingRoute.post('/', verifyToken, createBookingValidator, createBooking);
-bookingRoute.get('/', verifyToken, getBookings)
+bookingRoute.get('/', verifyToken, getBookings);
+bookingRoute.delete('/:bookingId', verifyToken, bookingIdValidator, deleteBooking);
 
 export default bookingRoute;
