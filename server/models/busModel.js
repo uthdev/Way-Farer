@@ -6,7 +6,7 @@ class Bus {
     const param = [bus_id];
     try {
       const { rows } = await pool.query(queryString, param);
-      return rows;
+      return rows[0];
     } catch (error) {
       throw error.message;
     }
