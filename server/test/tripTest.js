@@ -3,7 +3,7 @@ import chaiHttp from 'chai-http';
 import app from '../index';
 import { tripTestData, authTestData, bookingTestData } from './testData';
 
-const { validTrip, validCancelTrip, invalidCancelTrip } = tripTestData;
+const { validTrip1, validTrip2, validTrip3, validTrip4, validCancelTrip, invalidCancelTrip } = tripTestData;
 const { existingUserSignIn } = authTestData;
 const { validBooking, nonExistingTripBooking } = bookingTestData
 
@@ -60,7 +60,31 @@ describe('TRIP TEST', () => {
       const res = await chai.request(app)
       .post('/api/v1/trips')
       .set({Authorization: `Bearer ${adminToken}`})
-      .send(validTrip);
+      .send(validTrip1);
+      expect(res).to.have.status(201);
+      expect(res.body).to.have.property('data');
+    });
+    it('should return a status 201 code and post a trip', async () => {
+      const res = await chai.request(app)
+      .post('/api/v1/trips')
+      .set({Authorization: `Bearer ${adminToken}`})
+      .send(validTrip2);
+      expect(res).to.have.status(201);
+      expect(res.body).to.have.property('data');
+    });
+    it('should return a status 201 code and post a trip', async () => {
+      const res = await chai.request(app)
+      .post('/api/v1/trips')
+      .set({Authorization: `Bearer ${adminToken}`})
+      .send(validTrip3);
+      expect(res).to.have.status(201);
+      expect(res.body).to.have.property('data');
+    });
+    it('should return a status 201 code and post a trip', async () => {
+      const res = await chai.request(app)
+      .post('/api/v1/trips')
+      .set({Authorization: `Bearer ${adminToken}`})
+      .send(validTrip4);
       expect(res).to.have.status(201);
       expect(res.body).to.have.property('data');
     });
@@ -68,7 +92,7 @@ describe('TRIP TEST', () => {
       const res = await chai.request(app)
       .post('/api/v1/trips')
       .set({Authorization: `Bearer ${''}`})
-      .send(validTrip);
+      .send(validTrip1);
       expect(res).to.have.status(401);
       expect(res.body.status).to.equal('error')
       expect(res.body).to.have.property('error');
@@ -135,12 +159,12 @@ describe('TRIP TEST', () => {
     });
     it('should have 404 status and return an error message when no trips of the specified origin exists', async () => {
       const res = await chai.request(app)
-      .get('/api/v1/trips?origin=Oshodi')
+      .get('/api/v1/trips?origin=Idumota')
       .set({Authorization: `Bearer ${userToken}`})
       expect(res).to.have.status(404);
       expect(res.body.status).to.equal('error');
       expect(res.body).to.have.property('error');
-      expect(res.body.error).to.be.equal('No trip of Oshodi origin');
+      expect(res.body.error).to.be.equal('No trip of Idumota origin');
     });
     it('should have 404 status and return an error message when no trips of the specified destination exists', async () => {
       const res = await chai.request(app)
