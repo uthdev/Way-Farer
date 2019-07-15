@@ -98,6 +98,17 @@ describe('TRIP TEST', () => {
       expect(res.body).to.have.property('error');
     });
   });
+  describe('GET BOOKING', () => {
+    it('should return a 404 status and error message when there are no bookings', async () => {
+      const res = await chai.request(app)
+      .get('/api/v1/bookings')
+      .set({Authorization: `Bearer ${adminToken}`})
+      expect(res).to.have.status(404);
+      expect(res.body.status).to.equal('error');
+      expect(res.body).to.have.property('error');
+      expect(res.body.error).to.be.equal('No existing booking')
+    })
+  })
 
   describe('CREATE BOOKING', () => {
     it('should return a status 201 and create a new booking', async () => {
@@ -222,6 +233,25 @@ describe('BOOKING TESTS', () => {
       expect(res.body.status).to.equal('error');
       expect(res.body).to.have.property('error');
       expect(res.body.error).to.equal('The trip you are making a booking to does not exist');
+    })
+  })
+
+  describe('GET ALL BOOKINGS', () => {
+    it('should return a status 200 and return all the bookings when user is admin', async () => {
+      const res = await chai.request(app)
+      .get('/api/v1/bookings')
+      .set({Authorization: `Bearer ${adminToken}`})
+      expect(res).to.have.status(200);
+      expect(res.body.status).to.equal('success');
+      expect(res.body).to.have.property('data');
+    })
+    it('should return a status 200 and return all the bookings when user is admin', async () => {
+      const res = await chai.request(app)
+      .get('/api/v1/bookings')
+      .set({Authorization: `Bearer ${userToken}`})
+      expect(res).to.have.status(200);
+      expect(res.body.status).to.equal('success');
+      expect(res.body).to.have.property('data');
     })
   })
 })
