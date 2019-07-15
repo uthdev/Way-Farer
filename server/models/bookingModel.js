@@ -51,6 +51,28 @@ class Booking {
       return error.message;
     }
   }
+
+  static async findBooking (bookingId) {
+    const queryString = 'SELECT * FROM bookings WHERE id = $1';
+    const param = [bookingId];
+    try {
+      const { rows } = await pool.query(queryString, param);
+      return rows[0];
+    } catch (error) {
+      return error.message;
+    }
+  } 
+
+  static async deleteBooking (bookingId) {
+    const queryString = 'DELETE FROM bookings WHERE id = $1';
+    const param = [bookingId];
+    try {
+      const result = await pool.query(queryString, param);
+      return result;
+    } catch (error) {
+      return error.message;
+    }
+  }
 }
 
 export default Booking;

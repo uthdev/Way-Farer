@@ -198,7 +198,8 @@ describe('TRIP TEST', () => {
       .send(validCancelTrip)
       expect(res).to.have.status(200);
       expect(res.body.status).to.equal('success')
-      expect(res.body.data).to.have.property('message'); 
+      expect(res.body.data).to.have.property('message');
+      expect(res.body.data.message).to.equal('Trip cancelled successfully')
     })
     it('should return a 400 status when an validation fails', async () => {
       const res = await chai.request(app)
@@ -252,6 +253,37 @@ describe('BOOKING TESTS', () => {
       expect(res).to.have.status(200);
       expect(res.body.status).to.equal('success');
       expect(res.body).to.have.property('data');
+    })
+  })
+
+  describe('DELETE BOOKING', () => {
+    it('should return a status 403 and error message', async () => {
+      const res = await chai.request(app)
+      .delete('/api/v1/bookings/1')
+      .set({Authorization: `Bearer ${adminToken}`})
+      expect(res).to.have.status(403);
+      expect(res.body.status).to.equal('error')
+      expect(res.body).to.have.property('error');
+      expect(res.body.error).to.equal('You can only delete your own booking')
+    })
+    it('should return a status 200 and delete the booking', async () => {
+      const res = await chai.request(app)
+      .delete('/api/v1/bookings/1')
+      .set({Authorization: `Bearer ${userToken}`})
+      expect(res).to.have.status(200);
+      expect(res.body.status).to.equal('success')
+      expect(res.body).to.have.property('data');
+      expect(res.body.data).to.have.property('message');
+      expect(res.body.data.message).to.equal('Booking deleted successfully')
+    })
+    it('should return a status 404 and an error message', async () => {
+      const res = await chai.request(app)
+      .delete('/api/v1/bookings/1')
+      .set({Authorization: `Bearer ${adminToken}`})
+      expect(res).to.have.status(404);
+      expect(res.body.status).to.equal('error')
+      expect(res.body).to.have.property('error');
+      expect(res.body.error).to.equal('The booking does not exist');
     })
   })
 })

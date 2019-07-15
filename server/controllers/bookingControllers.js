@@ -28,10 +28,10 @@ export default class BookingController {
       }
       const booking = await new Booking(trip_id, user_id, seat_number);
       const bookingRows = await booking.createBooking();
-      const { id: booking_id, created_on } = bookingRows[0];
+      const { id, created_on } = bookingRows[0];
       await Trip.updateTrip(trip_id, 'bookings', (bookings + 1)); 
       const response = {
-        booking_id, user_id, trip_id, bus_id, trip_date, seat_number, first_name, last_name, email, created_on
+        id, user_id, trip_id, bus_id, trip_date, seat_number, first_name, last_name, email, created_on
       }
       return successResponse(res, 201, response)
     } catch (error) {
@@ -49,6 +49,29 @@ export default class BookingController {
       } else {
         return successResponse(res, 200, bookings)
       }    
+    } catch (error) {
+      return error;
+    }
+  }
+
+  static async deleteBooking (req, res) {
+    const { bookingId } = req.params;
+    const { user_id } = req.user;
+    try {
+      const bookingExists = await Booking.findBooking(bookingId);
+      if (!bookingExists) {
+        return errorResponse(res, 404, 'The booking does not exist');
+      }
+      const { id: booking_id, seat_number, created_on} = bookingExists;
+      if (bookingExists.user_id != user_id) {
+        return errorResponse(res, 403, 'You can only delete your own booking');
+      }
+      await Booking.deleteBooking(bookingId);
+      const response = {
+        message: 'Booking deleted successfully',
+        booking_id, user_id, seat_number, created_on
+      }
+      return successResponse(res, 200, response);
     } catch (error) {
       return error;
     }

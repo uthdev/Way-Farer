@@ -15,4 +15,17 @@ export default class {
       return error;
     }
   }
+
+  static async bookingIdValidator (req, res, next) {
+    const bookingId = req.params;
+
+    const bookingIdSchema = {
+      bookingId: 'numeric|min:1|max:10000'
+    }  
+    try {
+      await validate(res, next, bookingId, bookingIdSchema);
+    } catch (error) {
+      return error;
+    }
+  }
 }
