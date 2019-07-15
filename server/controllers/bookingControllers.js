@@ -26,7 +26,7 @@ export default class BookingController {
       if (bookingExist.length > 0) {
         return errorResponse(res, 403, 'You cannot make more than one booking');
       }
-      const booking = await new Booking(trip_id, user_id, seat_number);
+      const booking = await new Booking(trip_id, user_id, seat_number, first_name, last_name, email);
       const bookingRows = await booking.createBooking();
       const { id, created_on } = bookingRows[0];
       await Trip.updateTrip(trip_id, 'bookings', (bookings + 1)); 

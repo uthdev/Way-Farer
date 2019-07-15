@@ -54,7 +54,7 @@ export default class TripValidator {
   static async cancelTripValidator (req, res, next) {
     const cancelTrip = req.body;
     const cancelTripProperties = {
-      status: ['required', 'regex:/cancelled/i']
+      status: ['regex:/cancelled/i']
     }
     try {
       await validate(res, next, cancelTrip, cancelTripProperties);

@@ -1,17 +1,20 @@
 import pool from '../database/index';
 
 class Booking {
-  constructor(trip_id, user_id, seat_number) {
+  constructor(trip_id, user_id, seat_number, first_name, last_name, email) {
     this.id = undefined;
     this.trip_id = trip_id;
-    this.user_id = user_id
+    this.user_id = user_id;
     this.seat_number = seat_number;
+    this.first_name = first_name;
+    this.last_name = last_name;
+    this.email = email
     this.created_on = new Date(Date.now());
   }
 
   async createBooking () {
-    const queryString = 'INSERT INTO bookings (trip_id, user_id, seat_number, created_on) VALUES ($1, $2, $3, $4) RETURNING *';
-    const params = [this.trip_id, this.user_id, this.seat_number, this.created_on];
+    const queryString = 'INSERT INTO bookings (trip_id, user_id, seat_number, first_name, last_name, email, created_on) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *';
+    const params = [this.trip_id, this.user_id, this.seat_number, this.first_name, this.last_name, this.email, this.created_on];
     try {
       const { rows } = await pool.query(queryString, params);
       return rows;
