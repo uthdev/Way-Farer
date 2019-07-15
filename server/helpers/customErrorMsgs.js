@@ -10,7 +10,7 @@ const customErrorMessages = {
   boolean: ':attribute should be boolean: true or false.',
   in: ':attribute should be :in.',
   string: ':attribute should be of of string type',
-  after: ':attribute must be after :after'
+  after: ':attribute must be after :after',
 };
 
 export default customErrorMessages;

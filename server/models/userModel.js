@@ -17,7 +17,7 @@ class User {
       const { rows } = await pool.query(queryString, param);
       return rows;
     } catch (error) {
-      return error.message;
+      throw error.message;
     }
   }
 
@@ -30,7 +30,7 @@ class User {
       const { rows } = await pool.query(queryString, params);
       return rows[0];
     } catch (error) {
-      return error.message;
+      throw error.message;
     }
   }
 }
