@@ -30,6 +30,27 @@ class Booking {
       return error.message
     }
   }
+
+  static async getAll() {
+    const queryString =  'SELECT * FROM bookings';
+    try {
+      const { rows } = await pool.query(queryString);
+      return rows;
+    } catch (error) {
+      return error.message;
+    }
+  }
+
+  static async getAllByUser (userId) {
+    const queryString = 'SELECT * FROM bookings WHERE user_id = $1';
+    const params = [userId];
+    try {
+      const { rows } = await pool.query(queryString, params);
+      return rows;
+    } catch (error) {
+      return error.message;
+    }
+  }
 }
 
 export default Booking;

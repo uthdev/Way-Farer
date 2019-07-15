@@ -38,4 +38,19 @@ export default class BookingController {
       return error;
     }
   }
+
+  static async getBookings (req, res) {
+    const { is_admin, user_id } = req.user;
+    try {
+      let bookings;
+      is_admin ? bookings = await Booking.getAll() : bookings = await Booking.getAllByUser(user_id);
+      if ( bookings <= 0) {
+        return errorResponse(res, 404, 'No existing booking');
+      } else {
+        return successResponse(res, 200, bookings)
+      }    
+    } catch (error) {
+      return error;
+    }
+  }
 }
