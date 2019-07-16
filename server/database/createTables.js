@@ -26,6 +26,9 @@ console.log('Creating table...');
       id SERIAL NOT NULL,
       trip_id INT NOT NULL,
       user_id INT NOT NULL,
+      email text NOT NULL, 
+      first_name text NOT NULL,
+      last_name text NOT NULL,
       created_on TIMESTAMPTZ DEFAULT NOW(),
       seat_number INT,
       PRIMARY KEY (trip_id, user_id))`);
