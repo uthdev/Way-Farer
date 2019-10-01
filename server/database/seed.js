@@ -1,5 +1,5 @@
 import pool from './index';
-import { generateHash }  from '../helpers/bcrypt';
+import { generateHash } from '../helpers/bcrypt';
 
 const adminEmail = process.env.ADMIN_EMAIL;
 const adminPassword = process.env.ADMIN_PASSWORD;
@@ -12,7 +12,7 @@ const adminPassword = process.env.ADMIN_PASSWORD;
     console.log('Admin seeded');
     return result;
   } catch (error) {
-     console.log(error);
+    return error;
   }
 })();
 
@@ -24,6 +24,6 @@ const adminPassword = process.env.ADMIN_PASSWORD;
     console.log('Buses seeded');
     return result;
   } catch (error) {
-    console.log(error);
+    return error;
   }
 })();
