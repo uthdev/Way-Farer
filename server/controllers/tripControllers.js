@@ -65,13 +65,24 @@ export default class TripController {
     const { origin, destination } = req.query;
     try {
       let filteredTrips;
-      if (origin && destination) {
-        filteredTrips = await Trip.filterTrips([origin.toLowerCase(), destination.toLowerCase()]);
-      } else if (destination) {
-        filteredTrips = await Trip.filterTrips(destination.toLowerCase(), 'destination');
-      } else {
-        filteredTrips = await Trip.filterTrips(origin.toLowerCase(), 'origin');
+      switch (true) {
+        case ((origin && destination) ? true : false):
+          filteredTrips = await Trip.filterTrips([origin.toLowerCase(), destination.toLowerCase()]);
+          break;
+        case (destination ? true: false):
+          filteredTrips = await Trip.filterTrips(destination.toLowerCase(), 'destination');
+          break;
+        default:
+          filteredTrips = await Trip.filterTrips(origin.toLowerCase(), 'origin');
+          break;
       }
+      // if (origin && destination) {
+      //   filteredTrips = await Trip.filterTrips([origin.toLowerCase(), destination.toLowerCase()]);
+      // } else if (destination) {
+      //   filteredTrips = await Trip.filterTrips(destination.toLowerCase(), 'destination');
+      // } else {
+      //   filteredTrips = await Trip.filterTrips(origin.toLowerCase(), 'origin');
+      // }
       if (filteredTrips <= 0) {
         return errorResponse(res, 404, 'Trips not found');
       }
